@@ -1,9 +1,9 @@
 package com.userMS.UserMicroService.controllers;
 
-import com.userMS.UserMicroService.dtos.AuthRequestDTO;
-import com.userMS.UserMicroService.dtos.AuthResponseDTO;
-import com.userMS.UserMicroService.dtos.RegisterRequestDTO;
-import com.userMS.UserMicroService.services.UserService;
+import com.userMS.UserMicroService.dtos.authDTOs.AuthRequestDTO;
+import com.userMS.UserMicroService.dtos.authDTOs.AuthResponseDTO;
+import com.userMS.UserMicroService.dtos.authDTOs.RegisterRequestDTO;
+import com.userMS.UserMicroService.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,19 +12,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/user")
+@RequestMapping("api/auth")
 @RequiredArgsConstructor
-public class UserController {
+public class AuthController {
 
-    private final UserService userService;
+    private final AuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponseDTO> register(@RequestBody RegisterRequestDTO registerRequestDTO) {
-        return ResponseEntity.ok(this.userService.register(registerRequestDTO));
+        return ResponseEntity.ok(this.authService.register(registerRequestDTO));
     }
 
-    @PostMapping("/auth")
+    @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthRequestDTO authRequestDTO) {
-        return ResponseEntity.ok(this.userService.login(authRequestDTO));
+        return ResponseEntity.ok(this.authService.login(authRequestDTO));
     }
 }

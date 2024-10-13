@@ -1,4 +1,4 @@
-package com.userMS.UserMicroService.dtos;
+package com.userMS.UserMicroService.dtos.authDTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
