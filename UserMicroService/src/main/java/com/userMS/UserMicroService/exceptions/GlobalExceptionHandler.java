@@ -1,6 +1,7 @@
 package com.userMS.UserMicroService.exceptions;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +15,13 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ErrorResponse handleUserAlreadyExistsException(UserAlreadyExistsException exception) {
         return new ErrorResponse("Conflict", exception.getMessage());
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseBody
+    public ErrorResponse handleUsernameNotFoundException(UsernameNotFoundException exception) {
+        return new ErrorResponse("Unauthorized", exception.getMessage());
     }
 
     @ExceptionHandler(InvalidCredentialsException.class)
