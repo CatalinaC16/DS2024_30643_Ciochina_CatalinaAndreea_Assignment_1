@@ -8,11 +8,11 @@
 		<version>3.3.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.userMS</groupId>
-	<artifactId>UserMicroService</artifactId>
+	<groupId>com.example</groupId>
+	<artifactId>device</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>UserMicroService</name>
-	<description>Demo project for Spring Boot</description>
+	<name>DeviceMicroService</name>
+	<description>devices microservice</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -29,6 +29,7 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+
 	<dependencies>
 
 		<dependency>
@@ -87,6 +88,7 @@
 			<artifactId>jjwt-jackson</artifactId>
 			<version>0.11.5</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>
