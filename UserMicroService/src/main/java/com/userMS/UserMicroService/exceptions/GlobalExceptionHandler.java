@@ -37,4 +37,11 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleGeneralException(Exception exception) {
         return new ErrorResponse("Internal Server Error", "An internal exception occurred");
     }
+
+    @ExceptionHandler(UserDoesNotExistException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public ErrorResponse handleUserDoesNotExistExceptionException(UserDoesNotExistException exception) {
+        return new ErrorResponse("Not found", exception.getMessage());
+    }
 }

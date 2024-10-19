@@ -34,8 +34,7 @@ public class UserService {
     public List<UserDTO> getAllUsers() {
         List<User> users = this.userRepository.findAll();
         List<UserDTO> userDTOS = new ArrayList<>();
-        if (!users.isEmpty())
-            userDTOS = users.stream().map(userMapper::convertToDTO).collect(Collectors.toList());
+        if (!users.isEmpty()) userDTOS = users.stream().map(userMapper::convertToDTO).collect(Collectors.toList());
         logger.info("The list of all users was requested");
         return userDTOS;
     }
@@ -69,9 +68,9 @@ public class UserService {
             logger.error("User with id={} was not found in order to be deleted", id);
             throw new UserDoesNotExistException("The requested user does not exist");
         }
-        logger.info("User with id={} was deleted", id);
         User user = userOptional.get();
         this.userRepository.delete(user);
+        logger.info("User with id={} was deleted", id);
         return "User with id= " + id + " was deleted successfully!";
     }
 
@@ -84,6 +83,7 @@ public class UserService {
         }
         User user = userOptional.get();
         this.userRepository.delete(user);
+        logger.info("The user with email={} was deleted",email);
         return "User with email=" + email + " was deleted successfully!";
     }
 
@@ -95,9 +95,11 @@ public class UserService {
             throw new UserDoesNotExistException("There are no users to be deleted");
         }
         this.userRepository.deleteAll();
+        logger.info("All users were deleted");
         return "All users were deleted sucessfully";
     }
 
+    @Transactional
     public UserDTO updateUserById(UUID id, UserUpdateDTO userDTO) {
         Optional<User> userOptional = this.userRepository.findById(id);
         if (userOptional.isEmpty()) {
@@ -105,12 +107,13 @@ public class UserService {
             throw new UserDoesNotExistException("The requested user does not exist");
         }
         User user = userOptional.get();
-        this.updateFieldsOfUser(user, userDTO);
+        user = this.updateFieldsOfUser(user, userDTO);
         this.userRepository.save(user);
+        logger.info("The user with id={} was updated", id);
         return userMapper.convertToDTO(user);
     }
 
-    void updateFieldsOfUser(User user, UserUpdateDTO userUpdateDTO){
+    public User updateFieldsOfUser(User user, UserUpdateDTO userUpdateDTO) {
         if (userUpdateDTO.getFirstName() != null && !userUpdateDTO.getFirstName().isEmpty()) {
             user.setFirstName(userUpdateDTO.getFirstName());
         }
@@ -131,6 +134,6 @@ public class UserService {
         if (userUpdateDTO.getRole() != null) {
             user.setRole(userUpdateDTO.getRole());
         }
+        return user;
     }
-
 }

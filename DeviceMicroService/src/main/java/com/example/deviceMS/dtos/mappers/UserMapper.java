@@ -2,9 +2,11 @@ package com.example.deviceMS.dtos.mappers;
 
 import com.example.deviceMS.dtos.userDTOs.UserDTO;
 import com.example.deviceMS.entities.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class UserMapper implements Mapper<User, UserDTO> {
 
     @Override
@@ -23,7 +25,6 @@ public class UserMapper implements Mapper<User, UserDTO> {
         if (userDTO != null) {
             return User.builder()
                     .id(userDTO.getId())
-                    .devices(userDTO.getDevices())
                     .build();
         }
         return null;
