@@ -55,7 +55,10 @@ public class DeviceService {
 
     public List<DeviceDTO> getAllDevicesByUser(UUID id) throws UserDoesNotExistException {
         List<Device> devices = this.deviceRepository.findAll();
-        devices = devices.stream().filter(device -> device.getUser().getId() == id).collect(Collectors.toList());
+        devices = devices.stream()
+                .filter(device -> device.getUser().getId() != null && device.getUser().getId().equals(id))
+                .collect(Collectors.toList());
+
         List<DeviceDTO> deviceDTOS = new ArrayList<>();
         if (!devices.isEmpty())
             deviceDTOS = devices.stream().map(deviceMapper::convertToDTO).collect(Collectors.toList());
@@ -98,21 +101,20 @@ public class DeviceService {
 
     public Device updateDeviceValues(Device existingDevice, DeviceDTO deviceDTO) {
 
-        if (deviceDTO.getAddress() == null || deviceDTO.getAddress().isEmpty()) {
-            throw new InvalidDataException("Address cannot be empty");
+        if (deviceDTO.getAddress() != null && !deviceDTO.getAddress().isEmpty()) {
+            existingDevice.setAddress(deviceDTO.getAddress());
         }
-        existingDevice.setAddress(deviceDTO.getAddress());
 
-        if (deviceDTO.getDescription() == null || deviceDTO.getDescription().isEmpty()) {
-            throw new InvalidDataException("Description cannot be empty");
+        if (deviceDTO.getDescription() != null && !deviceDTO.getDescription().isEmpty()) {
+            existingDevice.setDescription(deviceDTO.getDescription());
         }
-        existingDevice.setDescription(deviceDTO.getDescription());
 
-        if (deviceDTO.getMaxHourlyEnergyConsumption() <= 0) {
+        if (deviceDTO.getMaxHourlyEnergyConsumption() < 0) {
             throw new InvalidDataException("Max hourly energy consumption must be greater than 0");
+        } else if (deviceDTO.getMaxHourlyEnergyConsumption() == 0) {
+        } else {
+            existingDevice.setMaxHourlyEnergyConsumption(deviceDTO.getMaxHourlyEnergyConsumption());
         }
-        existingDevice.setMaxHourlyEnergyConsumption(deviceDTO.getMaxHourlyEnergyConsumption());
-
         if (deviceDTO.getUser_id() != null) {
             Optional<User> userOptional = this.userRepository.findById(deviceDTO.getUser_id());
             if (userOptional.isEmpty()) {

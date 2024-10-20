@@ -33,7 +33,7 @@ public class DeviceMapper implements Mapper<Device, DeviceDTO> {
     public Device convertToEntity(DeviceDTO deviceDTO) {
         if (deviceDTO != null) {
             Optional<User> userOptional = null;
-            if (deviceDTO.getUser_id().equals(null))
+            if (!deviceDTO.getUser_id().equals(null))
                 userOptional = this.userRepository.findById(deviceDTO.getUser_id());
             User user = new User();
             if (userOptional.isPresent())
