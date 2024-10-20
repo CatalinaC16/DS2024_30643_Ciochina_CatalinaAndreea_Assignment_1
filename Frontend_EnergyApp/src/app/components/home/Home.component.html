@@ -1,0 +1,7 @@
+<div class="home-container">
+  <h2>Welcome to the Home Page</h2>
+
+  <p *ngIf="userEmail">Logged in as: {{ userEmail }}</p>
+
+  <button (click)="logout()">Logout</button>
+</div>
