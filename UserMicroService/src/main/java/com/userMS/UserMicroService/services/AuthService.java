@@ -9,12 +9,17 @@ import com.userMS.UserMicroService.exceptions.InvalidCredentialsException;
 import com.userMS.UserMicroService.exceptions.UserAlreadyExistsException;
 import com.userMS.UserMicroService.jwt.JwtService;
 import com.userMS.UserMicroService.repositories.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +32,8 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     private final AuthMapper authMapper;
+
+    private final SyncService syncService;
 
     private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
@@ -41,6 +48,8 @@ public class AuthService {
         this.userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);
         logger.info("User {} registered successfully", registerRequestDTO.getEmail());
+        ResponseEntity<String> response = this.syncService.createUserInDeviceMS(user.getId(), jwtToken);
+        logger.info("User {} was added in the device MS also", response.getBody());
         return this.authMapper.convertToDTOResp(jwtToken);
     }
 
@@ -51,11 +60,15 @@ public class AuthService {
         );
 
         User user = this.userRepository.findByEmail(authRequestDTO.getEmail())
-                .orElseThrow(() ->{
-                        logger.error("Invalid login attempt for email: {}", authRequestDTO.getEmail());
-                        return new InvalidCredentialsException("Invalid email or password");});
+                .orElseThrow(() -> {
+                    logger.error("Invalid login attempt for email: {}", authRequestDTO.getEmail());
+                    return new InvalidCredentialsException("Invalid email or password");
+                });
 
         String jwtToken = jwtService.generateToken(user);
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        session.setAttribute("jwtToken", jwtToken);
         logger.info("User {} authenticated successfully", authRequestDTO.getEmail());
         return this.authMapper.convertToDTOResp(jwtToken);
     }

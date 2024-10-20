@@ -6,12 +6,17 @@ import com.userMS.UserMicroService.dtos.userDTOs.UserUpdateDTO;
 import com.userMS.UserMicroService.entities.User;
 import com.userMS.UserMicroService.exceptions.UserDoesNotExistException;
 import com.userMS.UserMicroService.repositories.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +33,8 @@ public class UserService {
     private final UserMapper userMapper;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final SyncService syncService;
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
@@ -71,7 +78,16 @@ public class UserService {
         User user = userOptional.get();
         this.userRepository.delete(user);
         logger.info("User with id={} was deleted", id);
+        String jwtToken = this.getTokenFromSession();
+        ResponseEntity<String> response = this.syncService.deleteUserInDevicesMS(user.getId(), jwtToken);
+        logger.info("User {} was added in the device MS also", response.getBody());
         return "User with id= " + id + " was deleted successfully!";
+    }
+
+    public String getTokenFromSession() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession(false);
+        return (session != null) ? (String) session.getAttribute("jwtToken") : null;
     }
 
     @Transactional
@@ -83,7 +99,7 @@ public class UserService {
         }
         User user = userOptional.get();
         this.userRepository.delete(user);
-        logger.info("The user with email={} was deleted",email);
+        logger.info("The user with email={} was deleted", email);
         return "User with email=" + email + " was deleted successfully!";
     }
 
