@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
+import {RegisterRequestDTO} from "../dtos/RegisterRequestDto";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,18 @@ export class AuthService {
 
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, {email, password})
+      .pipe(
+        map((response: any) => {
+          if (response && response.token) {
+            localStorage.setItem('jwtToken', response.token);
+          }
+          return response;
+        })
+      );
+  }
+
+  register(registerRequestDTO: RegisterRequestDTO): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/register`, registerRequestDTO)
       .pipe(
         map((response: any) => {
           if (response && response.token) {
