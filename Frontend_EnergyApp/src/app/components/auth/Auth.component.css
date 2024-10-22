@@ -1,5 +1,6 @@
 .container {
   max-width: 800px;
+  margin-top:4rem;
   width: 300px;
   padding: 40px;
   background-color: transparent;
@@ -9,7 +10,7 @@
 
 h2 {
   color: #333333;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-weight: bold;
   text-align: center;
 }

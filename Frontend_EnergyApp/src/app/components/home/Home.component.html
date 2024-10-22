@@ -1,7 +1,13 @@
-<div class="home-container">
-  <h2>Welcome to the Home Page</h2>
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-logo">
+      <h2>Energy System Management</h2>
+    </div>
 
-  <p *ngIf="userEmail">Logged in as: {{ userEmail }}</p>
+    <div class="navbar-buttons">
+      <button class="btn" (click)="viewUserDetails()">Profile</button>
+      <button class="btn" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</nav>
 
-  <button (click)="logout()">Logout</button>
-</div>

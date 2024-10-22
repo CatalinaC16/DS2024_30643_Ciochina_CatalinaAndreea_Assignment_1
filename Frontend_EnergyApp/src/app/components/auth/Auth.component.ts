@@ -4,11 +4,11 @@ import { AuthService } from "../../services/Auth.service";
 import {RegisterRequestDTO} from "../../dtos/RegisterRequestDto";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-auth',
+  templateUrl: './Auth.component.html',
+  styleUrls: ['./Auth.component.css']
 })
-export class LoginComponent {
+export class AuthComponent {
   firstName = '';
   secondName = '';
   email = '';
@@ -18,7 +18,7 @@ export class LoginComponent {
 
   constructor(private authService: AuthService, private router: Router) { }
 
-  onSubmit(): void {
+  onLoginUser(): void {
     this.authService.login(this.email, this.password).subscribe(
       () => {
         this.router.navigate(['/dashboard']);
@@ -30,7 +30,7 @@ export class LoginComponent {
     );
   }
 
-  onRegister(): void {
+  onRegisterUser(): void {
     const registerRequestDTO: RegisterRequestDTO = {
       firstName: this.firstName,
       secondName: this.secondName,
