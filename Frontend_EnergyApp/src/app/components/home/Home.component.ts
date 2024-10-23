@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
   }
 
   viewUserDetails() {
-
+    this.router.navigate(["/myProfile"]).then();
   }
-
 }

@@ -1,0 +1,70 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-logo">
+      <h2>Energy System Management</h2>
+    </div>
+
+    <div class="navbar-buttons">
+      <button class="btn" (click)="viewUserDetails()">Profile</button>
+      <button class="btn" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <h2 class="text-center">My Profile</h2>
+
+  <div class="form-group">
+    <label for="id">ID</label>
+    <input type="text" class="form-control" id="id" [value]="this.id" readonly>
+  </div>
+
+  <div class="form-group">
+    <label for="firstName">First Name</label>
+    <input
+      type="text"
+      class="form-control"
+      id="firstName"
+      placeholder="{{ this.firstname || 'First Name' }}"
+      [(ngModel)]="this.firstname"
+      [disabled]="!user"
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="secondName">Second Name</label>
+    <input
+      type="text"
+      class="form-control"
+      id="secondName"
+      placeholder="{{ this.secondname || 'Second Name' }}"
+      [(ngModel)]="this.secondname"
+      [disabled]="!user"
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      placeholder="{{ this.email || 'Email' }}"
+      [(ngModel)]="this.email"
+      [disabled]="!user"
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input
+      type="password"
+      class="form-control"
+      id="password"
+      placeholder="Enter new password"
+      [(ngModel)]="password"
+    >
+  </div>
+
+  <button class="btn btn-primary" (click)="onSave()" [disabled]="!user">Save</button>
+</div>

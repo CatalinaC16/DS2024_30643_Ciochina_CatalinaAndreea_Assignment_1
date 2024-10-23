@@ -8,12 +8,14 @@ import {HomeComponent} from "./components/home/Home.component";
 import {AuthGuard} from "./guards/AuthGuard.guard";
 import {FormsModule} from "@angular/forms";
 import {AuthComponent} from "./components/auth/Auth.component";
+import {ProfileComponent} from "./components/profile/Profile.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
     HomeComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

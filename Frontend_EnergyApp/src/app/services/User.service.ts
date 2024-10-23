@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {AuthService} from "./Auth.service";
 import {Observable} from "rxjs";
+import {UserDTO} from "../dtos/UserDto";
 
 @Injectable({
   providedIn: 'root'
@@ -12,18 +13,10 @@ export class UserService {
   constructor(private http: HttpClient, private authService: AuthService) {
   }
 
-  createUser(userId: string): Observable<any> {
+  getUserByEmail(email: string): Observable<UserDTO> {
     const token = this.authService.getToken();
     const headers = {'Authorization': `Bearer ${token}`};
-    const body = {id: userId};
-
-    return this.http.post<any>(`${this.apiUrl}/create`, body, {headers});
+    return this.http.get<UserDTO>(`${this.apiUrl}/getByEmail/${email}`,{headers});
   }
 
-  deleteUser(userId: string): Observable<any> {
-    const token = this.authService.getToken();
-    const headers = {'Authorization': `Bearer ${token}`};
-
-    return this.http.delete(`${this.apiUrl}/delete/${userId}`, {headers});
-  }
 }
