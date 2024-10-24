@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {UserDTO} from "../../dtos/UserDto";
+import {UserDto} from "../../dtos/UserDto";
 import {UserService} from "../../services/User.service";
 import {AuthService} from "../../services/Auth.service";
 import {Router} from "@angular/router";
+import {NgForm} from '@angular/forms';
+import {Role} from "../../dtos/Role";
 
 @Component({
   selector: 'app-profile',
@@ -10,13 +12,14 @@ import {Router} from "@angular/router";
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  user: UserDTO | null = null;
+  user: UserDto | null = null;
   errorMessage: string = '';
   password = '';
   firstname = '';
   secondname = '';
   email = '';
   id = '';
+  role!:Role;
 
   constructor(private userService: UserService,
               private router: Router,
@@ -34,13 +37,13 @@ export class ProfileComponent implements OnInit {
       const payload = JSON.parse(atob(token.split('.')[1]));
       userEmail = payload.sub;
       this.userService.getUserByEmail(userEmail).subscribe(
-        (response: UserDTO) => {
-          console.log(response)
+        (response: UserDto) => {
           this.user = response;
           this.id = response.id;
           this.firstname = response.firstName;
           this.secondname = response.secondName;
           this.email = response.email;
+          this.role = response.role;
         },
         (error) => {
           this.errorMessage = 'Failed to load user';
@@ -50,7 +53,22 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  onSave() {
+  onSave(form: NgForm) {
+    if (form.valid) {
+      const updatedUser: UserDto = new UserDto(this.id, this.firstname, this.secondname, this.email, this.role);
+      this.userService.updateUser(this.id, updatedUser).subscribe({
+        next: (response) => {
+          console.log('User updated successfully', response);
+          this.logout();
+        },
+        error: (error) => {
+          console.error('Error updating user:', error);
+          alert('Failed to update profile. Please try again.');
+        }
+      });
+    } else {
+      alert('Please fill out the form correctly.');
+    }
   }
 
   logout(): void {

@@ -14,57 +14,89 @@
 <div class="container">
   <h2 class="text-center">My Profile</h2>
 
-  <div class="form-group">
-    <label for="id">ID</label>
-    <input type="text" class="form-control" id="id" [value]="this.id" readonly>
-  </div>
+  <form #profileForm="ngForm" (ngSubmit)="onSave(profileForm)">
 
-  <div class="form-group">
-    <label for="firstName">First Name</label>
-    <input
-      type="text"
-      class="form-control"
-      id="firstName"
-      placeholder="{{ this.firstname || 'First Name' }}"
-      [(ngModel)]="this.firstname"
-      [disabled]="!user"
-    >
-  </div>
+    <div class="form-group">
+      <label for="id">Id</label>
+      <input type="text" class="form-control" id="id" [value]="this.id" readonly>
+    </div>
 
-  <div class="form-group">
-    <label for="secondName">Second Name</label>
-    <input
-      type="text"
-      class="form-control"
-      id="secondName"
-      placeholder="{{ this.secondname || 'Second Name' }}"
-      [(ngModel)]="this.secondname"
-      [disabled]="!user"
-    >
-  </div>
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="firstName"
+        name="firstName"
+        placeholder="First Name"
+        [(ngModel)]="this.firstname"
+        required
+        minlength="2"
+        #firstNameInput="ngModel"
+      >
+      <div *ngIf="firstNameInput.invalid && firstNameInput.touched" class="text-danger">
+        <small *ngIf="firstNameInput.errors?.['required']">First Name is required.</small>
+        <small *ngIf="firstNameInput.errors?.['minlength']">First Name must be at least 2 characters long.</small>
+      </div>
+    </div>
 
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input
-      type="email"
-      class="form-control"
-      id="email"
-      placeholder="{{ this.email || 'Email' }}"
-      [(ngModel)]="this.email"
-      [disabled]="!user"
-    >
-  </div>
+    <div class="form-group">
+      <label for="secondName">Second Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="secondName"
+        name="secondName"
+        placeholder="Second Name"
+        [(ngModel)]="this.secondname"
+        required
+        minlength="2"
+        #secondNameInput="ngModel"
+      >
+      <div *ngIf="secondNameInput.invalid && secondNameInput.touched" class="text-danger">
+        <small *ngIf="secondNameInput.errors?.['required']">Second Name is required.</small>
+        <small *ngIf="secondNameInput.errors?.['minlength']">Second Name must be at least 2 characters long.</small>
+      </div>
+    </div>
 
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input
-      type="password"
-      class="form-control"
-      id="password"
-      placeholder="Enter new password"
-      [(ngModel)]="password"
-    >
-  </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        placeholder="Email"
+        [(ngModel)]="this.email"
+        required
+        email
+        #emailInput="ngModel"
+      >
+      <div *ngIf="emailInput.invalid && emailInput.touched" class="text-danger">
+        <small *ngIf="emailInput.errors?.['required']">Email is required.</small>
+        <small *ngIf="emailInput.errors?.['email']">Enter a valid email address.</small>
+      </div>
+    </div>
 
-  <button class="btn btn-primary" (click)="onSave()" [disabled]="!user">Save</button>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        name="password"
+        placeholder="Enter new password"
+        [(ngModel)]="this.password"
+        required
+        minlength="6"
+        #passwordInput="ngModel"
+      >
+      <div *ngIf="passwordInput.invalid && passwordInput.touched" class="text-danger">
+        <small *ngIf="passwordInput.errors?.['required']">Password is required.</small>
+        <small *ngIf="passwordInput.errors?.['minlength']">Password must be at least 6 characters long.</small>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="profileForm.invalid">Save</button>
+  </form>
 </div>
