@@ -26,7 +26,7 @@
 .navbar-buttons {
   display: flex;
   gap: 20px;
-  margin-right:1rem;
+  margin-right: 1rem;
 }
 
 .btn {
@@ -47,4 +47,45 @@
   padding: 20px;
   text-align: center;
   color: white;
+}
+
+.intro-container {
+  padding: 20px;
+  margin-top: 7.5rem;
+  margin-left: 9.5rem;
+  text-align: center;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  background-color: rgba(255, 239, 252, 0.5);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(0);
+  width: 15rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.intro-container:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.intro-text {
+  font-size: 20px;
+  color: #f9f9f9;
+  background: #17232e;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  margin: 0;
+  animation: fadeInUp 1.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

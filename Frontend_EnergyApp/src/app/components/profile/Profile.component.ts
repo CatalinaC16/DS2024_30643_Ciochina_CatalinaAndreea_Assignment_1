@@ -19,7 +19,7 @@ export class ProfileComponent implements OnInit {
   secondname = '';
   email = '';
   id = '';
-  role!:Role;
+  role!: Role;
 
   constructor(private userService: UserService,
               private router: Router,
@@ -76,7 +76,11 @@ export class ProfileComponent implements OnInit {
     this.router.navigate(["/login"]).then();
   }
 
-  viewUserDetails() {
-    this.router.navigate(["/myProfile"]).then();
+  goToHomePage() {
+    this.router.navigate(["/home"]).then();
+  }
+
+  goToDevices() {
+    this.router.navigate(["/home"]).then();
   }
 }

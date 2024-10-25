@@ -7,7 +7,7 @@ import {ProfileComponent} from "./components/profile/Profile.component";
 
 const routes: Routes = [
   {path: 'login', component: AuthComponent},
-  {path: 'dashboard', component: HomeComponent, canActivate: [AuthGuard]},
+  {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'myProfile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: '**', redirectTo: 'login'}
 ];

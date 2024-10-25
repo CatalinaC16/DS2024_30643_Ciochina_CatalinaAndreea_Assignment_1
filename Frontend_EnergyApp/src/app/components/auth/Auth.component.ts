@@ -21,7 +21,7 @@ export class AuthComponent {
   onLoginUser(): void {
     this.authService.login(this.email, this.password).subscribe(
       () => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/home']);
       },
       (error: any) => {
         this.isErrorMessage = true;
@@ -41,7 +41,7 @@ export class AuthComponent {
     this.authService.register(registerRequestDTO).subscribe(
       () => {
         this.isErrorMessage = false;
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/home']);
       },
       (error: any) => {
         this.isErrorMessage = true;
