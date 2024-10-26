@@ -8,8 +8,8 @@ import {Role} from "../../dtos/Role";
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  templateUrl: './Profile.component.html',
+  styleUrls: ['./Profile.component.css']
 })
 export class ProfileComponent implements OnInit {
   user: UserDto | null = null;
@@ -81,6 +81,6 @@ export class ProfileComponent implements OnInit {
   }
 
   goToDevices() {
-    this.router.navigate(["/home"]).then();
+    this.router.navigate(["/myDevices"]).then();
   }
 }
