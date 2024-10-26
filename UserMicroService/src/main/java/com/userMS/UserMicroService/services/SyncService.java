@@ -16,6 +16,7 @@ import java.util.UUID;
 public class SyncService {
 
     private final RestTemplate restTemplate;
+
     private final String deviceMicroserviceUrl = "http://localhost:8081/api/user";
 
     private static final Logger logger = LoggerFactory.getLogger(SyncService.class);
@@ -48,6 +49,7 @@ public class SyncService {
     public ResponseEntity<String> deleteUserInDevicesMS(UUID userId, String jwtToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + jwtToken);
+        System.out.println(jwtToken);
 
         HttpEntity<Void> request = new HttpEntity<>(headers);
 

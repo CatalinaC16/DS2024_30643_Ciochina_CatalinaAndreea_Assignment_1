@@ -83,4 +83,12 @@ export class ProfileComponent implements OnInit {
   goToDevices() {
     this.router.navigate(["/myDevices"]).then();
   }
+
+  goToAllDevices() {
+    this.router.navigate(["/admin/all-devices"]).then();
+  }
+
+  goToAllUsers() {
+    this.router.navigate(["/admin/all-users"]).then();
+  }
 }

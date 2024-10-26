@@ -4,12 +4,15 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from "@angular/common/http";
-import {HomeComponent} from "./components/home/Home.component";
 import {AuthGuard} from "./guards/AuthGuard.guard";
 import {FormsModule} from "@angular/forms";
 import {AuthComponent} from "./components/auth/Auth.component";
-import {ProfileComponent} from "./components/profile/Profile.component";
-import {MyDevicesComponent} from "./components/devices-user/MyDevices.component";
+import {AdminGuard} from "./guards/AdminGuard.guard";
+import {HomeComponent} from "./components/home-page/Home.component";
+import {ProfileComponent} from "./components/profile-page/Profile.component";
+import {MyDevicesComponent} from "./components/user-devices-page/MyDevices.component";
+import {NotAuthComponent} from "./components/not-auth-page/NotAuth.component";
+import {AdminUsersComponent} from "./components/admin-users-page/AdminUsers.component";
 
 @NgModule({
   declarations: [
@@ -17,7 +20,9 @@ import {MyDevicesComponent} from "./components/devices-user/MyDevices.component"
     AuthComponent,
     HomeComponent,
     ProfileComponent,
-    MyDevicesComponent
+    MyDevicesComponent,
+    NotAuthComponent,
+    AdminUsersComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +30,7 @@ import {MyDevicesComponent} from "./components/devices-user/MyDevices.component"
     HttpClientModule,
     FormsModule,
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard,AdminGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {

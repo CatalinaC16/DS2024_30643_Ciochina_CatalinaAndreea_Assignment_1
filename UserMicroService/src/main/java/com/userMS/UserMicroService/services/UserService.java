@@ -5,6 +5,7 @@ import com.userMS.UserMicroService.dtos.userDTOs.UserDTO;
 import com.userMS.UserMicroService.dtos.userDTOs.UserUpdateDTO;
 import com.userMS.UserMicroService.entities.User;
 import com.userMS.UserMicroService.exceptions.UserDoesNotExistException;
+import com.userMS.UserMicroService.jwt.JwtService;
 import com.userMS.UserMicroService.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -35,6 +36,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     private final SyncService syncService;
+
+    private final JwtService jwtService;
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
@@ -78,16 +81,10 @@ public class UserService {
         User user = userOptional.get();
         this.userRepository.delete(user);
         logger.info("User with id={} was deleted", id);
-        String jwtToken = this.getTokenFromSession();
+        String jwtToken = jwtService.generateToken(user);
         ResponseEntity<String> response = this.syncService.deleteUserInDevicesMS(user.getId(), jwtToken);
         logger.info("User {} was added in the device MS also", response.getBody());
         return "User with id= " + id + " was deleted successfully!";
-    }
-
-    public String getTokenFromSession() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session = request.getSession(false);
-        return (session != null) ? (String) session.getAttribute("jwtToken") : null;
     }
 
     @Transactional

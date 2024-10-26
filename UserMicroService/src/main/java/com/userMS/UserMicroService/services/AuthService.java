@@ -48,10 +48,6 @@ public class AuthService {
         this.userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);
 
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session = request.getSession(true);
-        session.setAttribute("jwtToken", jwtToken);
-
         logger.info("User {} registered successfully", registerRequestDTO.getEmail());
         ResponseEntity<String> response = this.syncService.createUserInDeviceMS(user.getId(), jwtToken);
         logger.info("User {} was added in the device MS also", response.getBody());
@@ -71,10 +67,6 @@ public class AuthService {
                 });
 
         String jwtToken = jwtService.generateToken(user);
-
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session = request.getSession(true);
-        session.setAttribute("jwtToken", jwtToken);
 
         logger.info("User {} authenticated successfully", authRequestDTO.getEmail());
         return this.authMapper.convertToDTOResp(jwtToken);

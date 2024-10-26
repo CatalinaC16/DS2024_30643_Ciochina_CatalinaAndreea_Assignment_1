@@ -1,6 +1,6 @@
-import { Router } from "@angular/router";
-import { Component } from "@angular/core";
-import { AuthService } from "../../services/Auth.service";
+import {Router} from "@angular/router";
+import {Component} from "@angular/core";
+import {AuthService} from "../../services/Auth.service";
 import {RegisterRequestDTO} from "../../dtos/RegisterRequestDto";
 
 @Component({
@@ -16,7 +16,8 @@ export class AuthComponent {
   isErrorMessage: boolean = false;
   isRegistering: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {
+  }
 
   onLoginUser(): void {
     this.authService.login(this.email, this.password).subscribe(

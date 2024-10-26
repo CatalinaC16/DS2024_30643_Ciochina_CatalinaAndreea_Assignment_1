@@ -1,0 +1,89 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-logo">
+      <h2>Energy System Management</h2>
+    </div>
+
+    <div class="navbar-buttons">
+      <button class="btn" (click)="goToAllDevices()">All devices</button>
+      <button class="btn" (click)="goToAllUsers()">All users</button>
+      <button class="btn" (click)="goToHomePage()">Home</button>
+      <button class="btn" (click)="viewUserDetails()">Profile</button>
+      <button class="btn" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<div class="admin-container">
+  <h2><b>Users</b></h2>
+  <table class="user-table" *ngIf="users.length; else noUsers">
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th>First Name</th>
+      <th>Second Name</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.id }}</td>
+      <td>{{ user.firstName }}</td>
+      <td>{{ user.secondName }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.role }}</td>
+      <td>
+        <button class="edit-buttons" (click)="deleteUser(user.id)">Delete</button>
+        <button class="edit-buttons" (click)="selectUser(user)">Edit</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noUsers>
+    <p>No users found.</p>
+  </ng-template>
+
+  <div *ngIf="editMode" class="edit-form">
+    <h3>Edit User</h3>
+
+    <label>First Name:
+      <input [(ngModel)]="selectedUser!.firstName"/>
+    </label>
+
+    <label>Second Name:
+      <input [(ngModel)]="selectedUser!.secondName"/>
+    </label>
+
+    <label>Email:
+      <input [(ngModel)]="selectedUser!.email"/>
+    </label>
+
+    <label>Role:</label>
+    <div class="role-selection">
+      <label>
+        <input
+          type="radio"
+          name="role"
+          [value]="'ADMIN'"
+          [(ngModel)]="selectedUser!.role"
+        />
+        Admin
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="role"
+          [value]="'USER'"
+          [(ngModel)]="selectedUser!.role"
+        />
+        User
+      </label>
+    </div>
+
+    <button class="edit-buttons" (click)="editMode = false">Cancel</button>
+    <button class="edit-buttons" (click)="updateUser()">Save</button>
+  </div>
+</div>

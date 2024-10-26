@@ -12,7 +12,7 @@
   </div>
 </nav>
 <div class="devices-container" *ngIf="devices.length; else noDevices">
-  <h2 class="text-center">My Devices</h2>
+  <h2 class="text-center"><b>My Devices</b></h2>
   <ul class="device-list">
     <li *ngFor="let device of devices" class="device-item">
       <p><b>Id:</b> {{ device.id }}</p>
