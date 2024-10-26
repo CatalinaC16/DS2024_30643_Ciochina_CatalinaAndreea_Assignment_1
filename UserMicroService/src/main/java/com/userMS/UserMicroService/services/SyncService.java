@@ -49,7 +49,6 @@ public class SyncService {
     public ResponseEntity<String> deleteUserInDevicesMS(UUID userId, String jwtToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + jwtToken);
-        System.out.println(jwtToken);
 
         HttpEntity<Void> request = new HttpEntity<>(headers);
 

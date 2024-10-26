@@ -39,7 +39,7 @@ export class AuthComponent {
       password: this.password
     };
 
-    this.authService.register(registerRequestDTO).subscribe(
+    this.authService.register(registerRequestDTO,false).subscribe(
       () => {
         this.isErrorMessage = false;
         this.router.navigate(['/home']);

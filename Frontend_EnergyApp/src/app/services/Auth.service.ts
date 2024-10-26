@@ -24,11 +24,11 @@ export class AuthService {
       );
   }
 
-  register(registerRequestDTO: RegisterRequestDTO): Observable<any> {
+  register(registerRequestDTO: RegisterRequestDTO, byAdmin: boolean): Observable<any> {
     return this.http.post<any>(`${this.urlAPI}/register`, registerRequestDTO)
       .pipe(
         map((response: any) => {
-          if (response && response.token) {
+          if (response && response.token && !byAdmin) {
             localStorage.setItem('jwtToken', response.token);
           }
           return response;

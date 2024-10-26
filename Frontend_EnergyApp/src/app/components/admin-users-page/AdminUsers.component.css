@@ -90,3 +90,9 @@ h2 {
   gap: 10px;
   margin-top: 5px;
 }
+
+.create-button{
+  float:right;
+  margin-right:2rem;
+  width:6rem;
+}

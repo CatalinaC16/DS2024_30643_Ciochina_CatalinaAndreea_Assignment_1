@@ -24,10 +24,14 @@ export class AdminUsersService {
     return this.http.put<any>(`${this.apiUrl}/update/${userId}`, userDTO, {headers});
   }
 
-  deleteUser(userId: string): Observable<any> {
+  deleteUser(userId: string): Observable<string> {
     const headers = this.getHeaders();
-    return this.http.delete<any>(`${this.apiUrl}/deleteById/${userId}`, {headers});
+    return this.http.delete<string>(`${this.apiUrl}/deleteById/${userId}`, {
+      headers: headers,
+      responseType: 'text' as 'json'
+    });
   }
+
 
   private getHeaders(): HttpHeaders {
     const token = this.authService.getToken();

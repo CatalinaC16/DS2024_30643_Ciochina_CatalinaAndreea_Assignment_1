@@ -3,6 +3,7 @@ import {UserDto} from "../../dtos/UserDto";
 import {AdminUsersService} from "../../services/Admin-Users.service";
 import {Router} from "@angular/router";
 import {AuthService} from "../../services/Auth.service";
+import {RegisterRequestDTO} from "../../dtos/RegisterRequestDto";
 
 @Component({
   selector: 'app-admin-users',
@@ -15,6 +16,10 @@ export class AdminUsersComponent implements OnInit {
   editMode = false;
   createMode = false;
   selectedUser: UserDto | null = null;
+  firstName = '';
+  secondName = '';
+  email = '';
+  password = '';
 
   constructor(private adminService: AdminUsersService,
               private authService: AuthService,
@@ -41,7 +46,20 @@ export class AdminUsersComponent implements OnInit {
   }
 
   createUser(){
+    this.createMode = true;
+  }
 
+  onCreateUser(): void {
+    const registerRequestDTO: RegisterRequestDTO = {
+      firstName: this.firstName,
+      secondName: this.secondName,
+      email: this.email,
+      password: this.password
+    };
+    this.authService.register(registerRequestDTO,true).subscribe(() => {
+      this.getAllUsers();
+      this.createMode = false;
+    });
   }
 
   updateUser() {
