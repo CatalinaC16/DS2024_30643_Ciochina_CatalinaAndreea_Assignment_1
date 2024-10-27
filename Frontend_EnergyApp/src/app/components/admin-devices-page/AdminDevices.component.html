@@ -101,25 +101,20 @@
       </div>
     </label>
 
-    <label>User ID:
-      <input
-        [(ngModel)]="selectedDevice!.user_id"
-        name="user_id"
-        type="text"
-        class="form-control"
-        id="user_id"
-        required
-        pattern="[a-f0-9-]{36}"
-        #userIdInput="ngModel"
-      />
-      <div *ngIf="userIdInput.invalid && userIdInput.touched" class="text-danger">
-        <small *ngIf="userIdInput.errors?.['required']">User ID is required.</small>
-        <small *ngIf="userIdInput.errors?.['pattern']">User ID must be a valid UUID.</small>
-      </div>
-    </label>
+    <label>User:</label>
+    <select [(ngModel)]="selectedDevice!.user_id" #userSelectInput="ngModel" required name="userSelect" class="select-user">
+      <option value="" disabled>Select a user</option>
+      <option *ngFor="let user of users" [value]="user.id">{{ user.firstName }} {{ user.secondName }}</option>
+    </select>
+    <div *ngIf="userSelectInput.invalid && userSelectInput.touched" class="text-danger">
+      <small>Selecting a user is required.</small>
+    </div>
 
     <button (click)="cancelEditMode()" class="edit-buttons">Cancel</button>
-    <button (click)="updateDevice()" [disabled]="addressInput.invalid || descriptionInput.invalid || energyConsumptionInput.invalid || userIdInput.invalid" class="edit-buttons">Save</button>
+    <button (click)="updateDevice()"
+            [disabled]="addressInput.invalid || descriptionInput.invalid || energyConsumptionInput.invalid || userSelectInput.invalid"
+            class="edit-buttons">Save
+    </button>
   </div>
 
   <div *ngIf="createMode" class="edit-form">
@@ -155,7 +150,8 @@
       />
       <div *ngIf="descriptionInput2Create.invalid && descriptionInput2Create.touched" class="text-danger">
         <small *ngIf="descriptionInput2Create.errors?.['required']">Description is required.</small>
-        <small *ngIf="descriptionInput2Create.errors?.['minlength']">Description must be at least 5 characters long.</small>
+        <small *ngIf="descriptionInput2Create.errors?.['minlength']">Description must be at least 5 characters
+          long.</small>
       </div>
     </label>
 
@@ -171,29 +167,25 @@
         #energyConsumptionInput2Create="ngModel"
       />
       <div *ngIf="energyConsumptionInput2Create.invalid && energyConsumptionInput2Create.touched" class="text-danger">
-        <small *ngIf="energyConsumptionInput2Create.errors?.['required']">Max Hourly Energy Consumption is required.</small>
+        <small *ngIf="energyConsumptionInput2Create.errors?.['required']">Max Hourly Energy Consumption is
+          required.</small>
         <small *ngIf="energyConsumptionInput2Create.errors?.['min']">Value must be greater than 0.</small>
       </div>
     </label>
 
-    <label>User ID:
-      <input
-        [(ngModel)]="selectedDevice!.user_id"
-        name="user_id"
-        type="text"
-        class="form-control"
-        id="user_id2"
-        required
-        pattern="[a-f0-9-]{36}"
-        #userIdInput2Create="ngModel"
-      />
-      <div *ngIf="userIdInput2Create.invalid && userIdInput2Create.touched" class="text-danger">
-        <small *ngIf="userIdInput2Create.errors?.['required']">User ID is required.</small>
-        <small *ngIf="userIdInput2Create.errors?.['pattern']">User ID must be a valid UUID.</small>
-      </div>
-    </label>
+    <label>User:</label>
+    <select [(ngModel)]="selectedDevice!.user_id" #userSelectInput2="ngModel" required name="userSelect" class="select-user">
+      <option value="" disabled>Select a user</option>
+      <option *ngFor="let user of users" [value]="user.id">{{ user.firstName }} {{ user.secondName }}</option>
+    </select>
+    <div *ngIf="userSelectInput2.invalid && userSelectInput2.touched" class="text-danger">
+      <small>Selecting a user is required.</small>
+    </div>
 
     <button (click)="cancelEditMode()" class="edit-buttons">Cancel</button>
-    <button (click)="createDevice()" [disabled]="addressInput2Create.invalid || descriptionInput2Create.invalid || energyConsumptionInput2Create.invalid || userIdInput2Create.invalid" class="edit-buttons">Create</button>
+    <button (click)="createDevice()"
+            [disabled]="addressInput2Create.invalid || descriptionInput2Create.invalid || energyConsumptionInput2Create.invalid || userSelectInput2.invalid"
+            class="edit-buttons">Create
+    </button>
   </div>
 </div>

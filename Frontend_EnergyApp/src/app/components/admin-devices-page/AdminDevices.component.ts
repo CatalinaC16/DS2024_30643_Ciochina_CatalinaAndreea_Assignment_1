@@ -3,6 +3,8 @@ import {DeviceDto} from "../../dtos/DeviceDto";
 import {DeviceService} from "../../services/Device.service";
 import {AuthService} from "../../services/Auth.service";
 import {Router} from "@angular/router";
+import {UserDto} from "../../dtos/UserDto";
+import {AdminUsersService} from "../../services/Admin-Users.service";
 
 @Component({
   selector: 'app-admin-devices',
@@ -11,23 +13,35 @@ import {Router} from "@angular/router";
 })
 export class AdminDevicesComponent implements OnInit {
   devices: DeviceDto[] = [];
+  users: UserDto[] = [];
   selectedDevice: DeviceDto | null = null;
   createMode = false;
   editMode = false;
 
   constructor(private deviceService: DeviceService,
+              private adminUsersService: AdminUsersService,
               private router: Router,
               private authService: AuthService) {
   }
 
   ngOnInit(): void {
-    this.loadDevices();
+    this.getAllDevices();
+    this.getAllUsers();
   }
 
-  loadDevices(): void {
+  getAllDevices(): void {
     this.deviceService.getAllDevices().subscribe(
       (devices) => this.devices = devices,
       (error) => console.error('Error loading devices:', error)
+    );
+  }
+
+  getAllUsers() {
+    this.adminUsersService.getAllUsers().subscribe(
+      (data) => (this.users = data),
+      (error) => {
+        console.error('Error fetching users:', error);
+      }
     );
   }
 
@@ -40,7 +54,7 @@ export class AdminDevicesComponent implements OnInit {
     if (this.selectedDevice) {
       this.deviceService.createDevice(this.selectedDevice).subscribe(
         (newDevice) => {
-          this.loadDevices();
+          this.getAllDevices();
           this.createMode = false;
           this.selectedDevice = null;
         },
@@ -58,7 +72,7 @@ export class AdminDevicesComponent implements OnInit {
     if (this.selectedDevice) {
       this.deviceService.updateDevice(this.selectedDevice.id, this.selectedDevice).subscribe(
         (updatedDevice) => {
-          this.loadDevices();
+          this.getAllDevices();
           this.editMode = false;
           this.selectedDevice = null;
         },
@@ -70,7 +84,7 @@ export class AdminDevicesComponent implements OnInit {
   deleteDevice(deviceId: string): void {
     this.deviceService.deleteDevice(deviceId).subscribe(
       () => {
-        this.loadDevices();
+        this.getAllDevices();
       },
       (error) => console.error('Error deleting device:', error)
     );
