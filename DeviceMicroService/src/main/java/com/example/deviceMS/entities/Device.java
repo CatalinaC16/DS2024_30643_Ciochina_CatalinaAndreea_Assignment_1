@@ -37,7 +37,7 @@ public class Device implements Serializable {
     @Column(name = "maxHourlyEnergyConsumption", nullable = false)
     private int maxHourlyEnergyConsumption;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name = "user_id")
     private User user;
 }

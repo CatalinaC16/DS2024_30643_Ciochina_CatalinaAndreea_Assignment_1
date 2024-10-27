@@ -13,6 +13,7 @@ import {ProfileComponent} from "./components/profile-page/Profile.component";
 import {MyDevicesComponent} from "./components/user-devices-page/MyDevices.component";
 import {NotAuthComponent} from "./components/not-auth-page/NotAuth.component";
 import {AdminUsersComponent} from "./components/admin-users-page/AdminUsers.component";
+import {AdminDevicesComponent} from "./components/admin-devices-page/AdminDevices.component";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {AdminUsersComponent} from "./components/admin-users-page/AdminUsers.comp
     ProfileComponent,
     MyDevicesComponent,
     NotAuthComponent,
-    AdminUsersComponent
+    AdminUsersComponent,
+    AdminDevicesComponent
   ],
   imports: [
     BrowserModule,

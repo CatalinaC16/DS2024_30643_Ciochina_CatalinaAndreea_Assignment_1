@@ -21,7 +21,7 @@ export class AdminUsersService {
 
   updateUser(userId: string, userDTO: UserDto): Observable<any> {
     const headers = this.getHeaders();
-    return this.http.put<any>(`${this.apiUrl}/update/${userId}`, userDTO, {headers});
+    return this.http.put<UserDto>(`${this.apiUrl}/update/${userId}`, userDTO, {headers});
   }
 
   deleteUser(userId: string): Observable<string> {
@@ -31,7 +31,6 @@ export class AdminUsersService {
       responseType: 'text' as 'json'
     });
   }
-
 
   private getHeaders(): HttpHeaders {
     const token = this.authService.getToken();

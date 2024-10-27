@@ -86,6 +86,7 @@ public class DeviceService {
         return this.deviceMapper.convertToDTO(device);
     }
 
+    @Transactional
     public DeviceDTO updateDeviceById(UUID id, DeviceDTO deviceDTO) throws DeviceDoesNotExistException {
         Optional<Device> deviceOptional = this.deviceRepository.findById(id);
         if (deviceOptional.isEmpty()) {

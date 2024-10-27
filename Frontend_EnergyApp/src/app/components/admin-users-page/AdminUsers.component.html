@@ -44,7 +44,7 @@
   </table>
 
   <ng-template #noUsers>
-    <p>No users found.</p>
+    <p>No users were found.</p>
   </ng-template>
 
   <div *ngIf="editMode" class="edit-form">
@@ -127,7 +127,7 @@
     </div>
 
     <button class="edit-buttons" (click)="editMode = false">Cancel</button>
-    <button class="edit-buttons" (click)="updateUser()">Save</button>
+    <button class="edit-buttons" (click)="updateUser()" [disabled]="firstNameInput.invalid || secondNameInput.invalid ||emailInput.invalid">Save</button>
   </div>
 
   <div *ngIf="createMode" class="edit-form">
@@ -205,6 +205,6 @@
     </label>
 
     <button class="edit-buttons" (click)="createMode = false">Cancel</button>
-    <button class="edit-buttons" (click)="onCreateUser()">Create</button>
+    <button class="edit-buttons" (click)="onCreateUser()" [disabled]="firstName2Input.invalid || email2Input.invalid || secondName2Input.invalid || passwordInput.invalid">Create</button>
   </div>
 </div>

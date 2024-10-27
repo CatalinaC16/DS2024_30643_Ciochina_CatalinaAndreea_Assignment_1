@@ -1,6 +1,5 @@
 package com.example.deviceMS.dtos.deviceDTOs;
 
-import com.example.deviceMS.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
